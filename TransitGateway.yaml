@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Transit Gateway creation
+
+Parameters:
+  AmazonSideAsn:
+    Type: String
+    Default: 64512
+    Description: Amazon ASN side to be used
+
+  TransitGatewayCidrBlocks:
+    Type: List<String>
+    Description: CIDR block for Transit Gateway
+
+Resources:
+  TransitGateway:
+    Type: AWS::EC2::TransitGateway
+    Properties:
+      AmazonSideAsn: !Ref AmazonSideAsn
+      #AssociationDefaultRouteTableId: String
+      AutoAcceptSharedAttachments: disable
+      DefaultRouteTableAssociation: enable
+      DefaultRouteTablePropagation: enable
+      Description: Transit Gateway
+      DnsSupport: enable
+      MulticastSupport: disable
+      #PropagationDefaultRouteTableId: String
+      TransitGatewayCidrBlocks: !Ref TransitGatewayCidrBlocks
+      Tags:
+        - Key: Name
+          Value: !Sub '${AWS::StackName}-TransitGateway'
+#      VpnEcmpSupport: String
+
+   ConnectAttachment:
+     Type: AWS::EC2::TransitGatewayConnect
+     Properties:
+       Options:
+         Protocol: gre
+       Tags:
+         - Tag
+       TransportTransitGatewayAttachmentId: String
+
+
+Outputs:
+  TransitGatewayid:
+    Value: !Ref TransitGateway
+    Description: Transit Gateway Id
+  Name:
+    Value: !Sub '${AWS::StackName}-TransitGateway'
+    Description: Tag:Name of Transit Gateway
