@@ -10,14 +10,17 @@ Parameters:
   TransitGatewayCidrBlocks:
     Type: List<String>
     Description: CIDR block for Transit Gateway
-
+  
 Resources:
   TransitGateway:
     Type: AWS::EC2::TransitGateway
     Properties:
       AmazonSideAsn: !Ref AmazonSideAsn
       #AssociationDefaultRouteTableId: String
-     Description: Transit Gateway
+      AutoAcceptSharedAttachments: disable
+      DefaultRouteTableAssociation: enable
+      DefaultRouteTablePropagation: enable
+      Description: Transit Gateway
       DnsSupport: enable
       MulticastSupport: disable
       #PropagationDefaultRouteTableId: String
@@ -26,16 +29,6 @@ Resources:
         - Key: Name
           Value: !Sub '${AWS::StackName}-TransitGateway'
 #      VpnEcmpSupport: String
-
-  ConnectAttachment:
-    Type: AWS::EC2::TransitGatewayConnect
-    Properties:
-      Options:
-        Protocol: gre
-      Tags:
-        - Tag
-      TransportTransitGatewayAttachmentId: String
-
 
 Outputs:
   TransitGatewayid:
