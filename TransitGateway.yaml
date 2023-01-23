@@ -17,10 +17,7 @@ Resources:
     Properties:
       AmazonSideAsn: !Ref AmazonSideAsn
       #AssociationDefaultRouteTableId: String
-      AutoAcceptSharedAttachments: disable
-      DefaultRouteTableAssociation: enable
-      DefaultRouteTablePropagation: enable
-      Description: Transit Gateway
+     Description: Transit Gateway
       DnsSupport: enable
       MulticastSupport: disable
       #PropagationDefaultRouteTableId: String
@@ -30,14 +27,14 @@ Resources:
           Value: !Sub '${AWS::StackName}-TransitGateway'
 #      VpnEcmpSupport: String
 
-   ConnectAttachment:
-     Type: AWS::EC2::TransitGatewayConnect
-     Properties:
-       Options:
-         Protocol: gre
-       Tags:
-         - Tag
-       TransportTransitGatewayAttachmentId: String
+  ConnectAttachment:
+    Type: AWS::EC2::TransitGatewayConnect
+    Properties:
+      Options:
+        Protocol: gre
+      Tags:
+        - Tag
+      TransportTransitGatewayAttachmentId: String
 
 
 Outputs:
